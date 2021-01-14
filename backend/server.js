@@ -4,6 +4,7 @@ const createError = require("http-errors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const config = require("./config");
+const cors = require("cors");
 
 //routes
 const tasksRouter = require("./routes/tasksRouter");
@@ -22,7 +23,7 @@ connect.then((db) => {
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(cors());
 app.get("/", (req, res) => {
   res.send("Hello from server !!");
 });
