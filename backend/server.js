@@ -27,7 +27,8 @@ app.get("/", (req, res) => {
   res.send("Hello from server !!");
 });
 
-//catch 404 errors
+app.use("/tasks", tasksRouter);
+
 app.use((req, res, next) => {
   next(createError(404));
 });
@@ -42,7 +43,6 @@ app.use((req, res) => {
   res.status(err.status || 500);
   res.render("error");
 });
-app.use("/tasks", tasksRouter);
 const server = http.createServer(app);
 server.listen(port, name, () => {
   console.log(`Connected Correctly at: http://localhost:3000`);
