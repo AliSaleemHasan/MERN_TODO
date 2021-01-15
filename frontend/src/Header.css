@@ -1,0 +1,101 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e8e6e2;
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+}
+
+/*  */
+/*header__search */
+/*  */
+
+.header__center {
+  flex: 0.5;
+}
+.header__search {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  height: 30px;
+  border-radius: 5px;
+}
+.header__search > input {
+  background-color: #ffffff;
+  outline: none;
+  border: none;
+}
+
+.header__search > button {
+  display: none;
+}
+.header__searchIcon {
+  padding: 0 4px;
+}
+
+.header_searchSM > input {
+  display: initial;
+}
+
+.header_searchSM_TO {
+  flex: 0.1;
+}
+.header_searchSM_TO > input {
+  display: none;
+}
+
+/*  */
+/* Header__logo */
+/*  */
+.header__logo {
+  margin: 0 20px;
+  max-width: 70px;
+  object-fit: contain;
+}
+
+/*  */
+/*header__right */
+/*  */
+
+.header__right {
+  display: flex;
+  align-items: center;
+}
+.list {
+  position: absolute;
+  top: 20%;
+  right: -100%;
+  list-style: none;
+}
+
+.list > li {
+  margin: 20px 0;
+  background-color: #e8e6e2;
+  width: 200px;
+  text-align: center;
+  padding: 20px 0px;
+  font-family: sans-serif;
+  font-weight: 500;
+  color: #000;
+}
+
+.list > li:hover {
+  cursor: pointer;
+  color: rgb(229, 255, 0);
+}
+
+.header__avatar {
+  margin: 0 20px;
+}
+
+.header__rightTO > .list {
+  right: 0%;
+}
+
+.header__avatar > .MuiAvatar-root {
+  color: #7586d1;
+}

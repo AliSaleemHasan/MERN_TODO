@@ -30,10 +30,6 @@ app.get("/", (req, res) => {
 
 app.use("/tasks", tasksRouter);
 
-app.use((req, res, next) => {
-  next(createError(404));
-});
-
 //handle erros
 app.use((req, res) => {
   // set locals, only providing error in development
