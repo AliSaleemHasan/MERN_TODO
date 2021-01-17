@@ -15,6 +15,7 @@ const name = "localhost";
 const connect = mongoose.connect(config.mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 connect.then((db) => {
   console.log("Connected correctly to  DataBase");

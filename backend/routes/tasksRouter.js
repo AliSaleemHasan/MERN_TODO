@@ -1,6 +1,5 @@
 const tasksRouter = require("express").Router();
 const bodyParser = require("body-parser");
-const { response } = require("express");
 const tasks = require("../models/tasks");
 
 tasksRouter.use(bodyParser.json());
@@ -40,7 +39,7 @@ tasksRouter
   })
   .delete((req, res, next) => {
     tasks
-      .remove({})
+      .deleteMany({})
       .then(
         (response) => {
           res.statusCode = 200;
@@ -52,4 +51,57 @@ tasksRouter
       .catch((err) => next(err));
   });
 
+tasksRouter
+  .route("/:taskId")
+  .get((req, res, next) => {
+    tasks
+      .findById(req.params.taskId)
+      .then(
+        (task) => {
+          if (task) {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json({ task: task });
+          } else {
+            let err = new Error(
+              "task with taskId: " + req.params.taskId + "NOT FOUND!"
+            );
+
+            err.statusCode = 404;
+            next(err);
+          }
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  })
+  .post((req, res, next) => {
+    res.statusCode = 400;
+    res.end("cannot do post on task: " + req.params.taskId);
+  })
+  .put((req, res, next) => {
+    tasks
+      .findByIdAndUpdate(req.params.taskId, { $set: req.body })
+      .then(
+        (task) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json({ task: task });
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  })
+  .delete((req, res, next) => {
+    tasks
+      .findByIdAndDelete(req.params.taskId)
+      .then(
+        (response) => {
+          res.statusCode = 200;
+          res.end("deleted Successfuly ! ");
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
+  });
 module.exports = tasksRouter;
