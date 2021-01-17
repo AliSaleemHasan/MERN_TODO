@@ -85,7 +85,7 @@
 
 .list > li:hover {
   cursor: pointer;
-  color: rgb(229, 255, 0);
+  color: #045bfd;
 }
 
 .header__avatar {

@@ -1,0 +1,61 @@
+.todo {
+  width: 90vw;
+  margin: auto;
+}
+
+.todo__title {
+  margin: 20px 0;
+  color: #2a75ff;
+}
+
+.todo__input > input {
+  width: 80%;
+  background-color: #424240;
+  outline: none;
+  border: none;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e8e6e2;
+  color: #f1f2f3;
+  margin-bottom: 30px;
+}
+.todo__input > button {
+  display: none;
+}
+/* .todo__paragraph {
+  font-size: 1.2em;
+  font-weight: 400;
+  font-family: sans-serif;
+  padding: 10px 0;
+  border-bottom: 1px solid #e8e6e2;
+  color: #ccc;
+} */
+
+.todo__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e8e6e2;
+
+  padding: 10px 10px;
+}
+
+.todo__containerParagraph {
+  color: #efefef;
+  font-weight: 400;
+  font-variant: small-caps;
+}
+.todo__containerIcons {
+  display: flex;
+  align-items: center;
+}
+.todo__containerIcons > .MuiSvgIcon-root {
+  margin: 0 4px;
+}
+
+.todo__containerIcons > .MuiSvgIcon-root:first-child {
+  color: #848fce;
+}
+
+.todo__containerIcons > .MuiSvgIcon-root:nth-child(2) {
+  color: #ff2a3b;
+}
