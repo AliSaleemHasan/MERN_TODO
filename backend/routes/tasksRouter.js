@@ -81,7 +81,7 @@ tasksRouter
   })
   .put((req, res, next) => {
     tasks
-      .findByIdAndUpdate(req.params.taskId, { $set: req.body })
+      .findByIdAndUpdate(req.params.taskId, { $set: req.body }, { new: true })
       .then(
         (task) => {
           res.statusCode = 200;

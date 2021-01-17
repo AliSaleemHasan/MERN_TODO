@@ -8,6 +8,14 @@
   color: #2a75ff;
 }
 
+.todo__fun {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.todo__input {
+  flex: 1;
+}
 .todo__input > input {
   width: 80%;
   background-color: #424240;
@@ -48,14 +56,14 @@
   display: flex;
   align-items: center;
 }
-.todo__containerIcons > .MuiSvgIcon-root {
+.todo__containerIcons .MuiSvgIcon-root {
   margin: 0 4px;
 }
 
-.todo__containerIcons > .MuiSvgIcon-root:first-child {
+.todo__icon1 {
   color: #848fce;
 }
 
-.todo__containerIcons > .MuiSvgIcon-root:nth-child(2) {
+.todo__icon2 {
   color: #ff2a3b;
 }
