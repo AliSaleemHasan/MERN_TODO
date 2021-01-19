@@ -15,6 +15,17 @@ const handleRequests = {
     });
     return response.json();
   },
+  putCheck: async (id, check) => {
+    const response = await fetch(uri + `/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({ checked: check }),
+    });
+    return response.json();
+  },
   post: async (input) => {
     const response = await fetch(uri, {
       method: "POST",

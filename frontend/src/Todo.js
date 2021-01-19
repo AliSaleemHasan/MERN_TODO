@@ -38,22 +38,31 @@ function Todo({ type }) {
     setTodos([]);
   };
 
-  const handleUpdate = (id) => (e) => {
+  const handleUpdate = (id, index, checked) => (e) => {
     e.preventDefault();
-    let updatedTodo = prompt("please enter your updated todo ");
-    handleRequests
-      .put(id, updatedTodo)
-      .then((data1) => {
-        console.log(data1);
+    let cp = [...todos];
+    if (checked === undefined) {
+      let updatedTodo = prompt("please enter your updated todo ");
+      if (updatedTodo) {
         handleRequests
-          .get("")
-          .then((data) => {
-            console.table(data);
-            setTodos(data.tasks);
+          .put(id, updatedTodo)
+          .then((data1) => {
+            console.log(data1);
           })
           .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
+        cp[index].task = updatedTodo;
+      }
+    } else {
+      handleRequests
+        .putCheck(id, checked)
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => console.log(err));
+      cp[index].checked = checked;
+    }
+
+    setTodos(cp);
   };
 
   const handleDeleteOne = (id) => (e) => {
@@ -93,17 +102,21 @@ function Todo({ type }) {
           DELETE ALL
         </Button>
       </div>
-      {todos?.map(({ task, checked, _id }) => (
+      {todos?.map(({ task, checked, _id }, index) => (
         <div className="todo__container" key={_id}>
           <p className="todo__containerParagraph">{task}</p>
           <div className="todo__containerIcons">
-            <IconButton onClick={handleUpdate(_id)}>
+            <IconButton onClick={handleUpdate(_id, index)}>
               <Edit className="todo__icon1" />
             </IconButton>
             <IconButton onClick={handleDeleteOne(_id)}>
               <Delete className="todo__icon2" />
             </IconButton>
-            <Checkbox color="primary" />
+            <Checkbox
+              checked={checked}
+              color="primary"
+              onClick={handleUpdate(_id, index, !checked)}
+            />
           </div>
         </div>
       ))}
