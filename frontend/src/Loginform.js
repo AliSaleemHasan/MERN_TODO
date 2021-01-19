@@ -5,6 +5,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import MailIcon from "@material-ui/icons/Mail";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import handleRequests from "./handleRequests";
+import { useHistory } from "react-router-dom";
 
 function Loginform() {
   const [type, setType] = useState("Login");
@@ -12,20 +13,31 @@ function Loginform() {
   const [password, SetPassword] = useState("");
   const [firstname, SetFirstname] = useState("");
   const [lastname, SetLastname] = useState("");
+  const [error, setError] = useState("");
+  const history = useHistory();
   const changeToSignup = (e) => {
     e.preventDefault();
     setType("Signup");
+    setError("");
   };
   const changeToLogin = (e) => {
     e.preventDefault();
     setType("Login");
+    setError("");
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setError("");
     handleRequests
       .login(username, password)
-      .then((response) => console.table(response))
+      .then((response) => {
+        console.log("success" + response.success);
+        if (!response.success) setError(response.status);
+        else {
+          history.push("/");
+        }
+      })
       .catch((err) => console.log(err));
     SetUsername("");
     SetPassword("");
@@ -33,10 +45,17 @@ function Loginform() {
 
   const handleSignup = (e) => {
     e.preventDefault();
+    setError("");
     handleRequests
       .signup(username, password, firstname, lastname)
-      .then((response) => console.table(response))
+      .then((response) => {
+        if (!response.success) setError(response.status);
+        else {
+          setType("Login");
+        }
+      })
       .catch((err) => console.log(err));
+
     SetUsername("");
     SetPassword("");
     SetFirstname("");
@@ -57,6 +76,7 @@ function Loginform() {
         </button>
       </div>
       <form action="">
+        <h3 className="error">{error}</h3>
         <input
           value={username}
           onChange={(e) => SetUsername(e.target.value)}
@@ -71,7 +91,11 @@ function Loginform() {
           required={true}
           placeholder="Enter Password"
         />
-        <button className="button1" onClick={handleLogin}>
+        <button
+          disabled={!username || !password}
+          className="button1"
+          onClick={handleLogin}
+        >
           {type.toUpperCase()}
         </button>
 
@@ -85,6 +109,8 @@ function Loginform() {
       <h2>{type}</h2>
       <Avatar />
       <form action="">
+        <h3 className="error">{error}</h3>
+
         <input
           value={firstname}
           onChange={(e) => SetFirstname(e.target.value)}

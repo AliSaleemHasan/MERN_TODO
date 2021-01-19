@@ -34,18 +34,16 @@ app.get("/", (req, res) => {
 app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);
 
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-//handle erros
-app.use((req, res) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+app.use((err, req, res, next) => {
+  var output = {
+    error: {
+      name: err.name,
+      message: err.message,
+      text: err.toString(),
+    },
+  };
+  var statusCode = err.status || 500;
+  res.status(statusCode).json(output);
 });
 const server = http.createServer(app);
 server.listen(port, name, () => {

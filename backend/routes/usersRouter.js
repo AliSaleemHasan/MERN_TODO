@@ -17,7 +17,7 @@ usersRouter.post("/signup", (req, res, next) => {
       if (err) {
         res.statusCode = 500;
         res.setHeader("Content-Type", "application/json");
-        res.json({ err: err });
+        res.json({ success: true, status: "Registration Error!" });
       } else {
         if (req.body.firstname) user.firstname = req.body.firstname;
         if (req.body.lastname) user.lastname = req.body.lastname;
@@ -25,7 +25,7 @@ usersRouter.post("/signup", (req, res, next) => {
           if (err) {
             res.statusCode = 500;
             res.setHeader("Content-Type", "application/json");
-            res.json({ err: err });
+            res.json({ success: true, status: "Registration Error!" });
             return;
           }
           passport.authenticate("local")(req, res, () => {
@@ -39,14 +39,37 @@ usersRouter.post("/signup", (req, res, next) => {
   );
 });
 
-usersRouter.post("/login", passport.authenticate("local"), (req, res, next) => {
-  let token = authenticate.getToken({ _id: req.user._id });
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.json({
-    success: true,
-    token: token,
-    status: "you are successfuly logged in !",
-  });
-});
+usersRouter.post(
+  "/login",
+  passport.authenticate("local", { failWithError: true }),
+  function (req, res, next) {
+    let token = authenticate.getToken({ _id: req.user._id });
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      success: true,
+      token: token,
+      status: "you are successfuly logged in !",
+    });
+  },
+  function (err, req, res, next) {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({ success: false, status: "wrong username or password!!" });
+  }
+);
+// usersRouter.post(
+//   "/login",
+//   passport.authenticate("local", { failWithError: true }),
+//   (req, res, next) => {
+//     let token = authenticate.getToken({ _id: req.user._id });
+//     res.statusCode = 200;
+//     res.setHeader("Content-Type", "application/json");
+//     res.json({
+//       success: true,
+//       token: token,
+//       status: "you are successfuly logged in !",
+//     });
+//   }
+// );
 module.exports = usersRouter;

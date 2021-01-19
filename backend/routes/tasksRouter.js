@@ -98,7 +98,8 @@ tasksRouter
       .then(
         (response) => {
           res.statusCode = 200;
-          res.end("deleted Successfuly ! ");
+          res.setHeader("Content-Type", "application/json");
+          res.json({ response: response });
         },
         (err) => next(err)
       )
