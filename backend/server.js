@@ -5,10 +5,11 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const config = require("./config");
 const cors = require("cors");
+const passport = require("passport");
 
 //routes
 const tasksRouter = require("./routes/tasksRouter");
-
+const usersRouter = require("./routes/usersRouter");
 const port = 3000;
 const name = "localhost";
 
@@ -24,10 +25,13 @@ connect.then((db) => {
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
+
 app.get("/", (req, res) => {
   res.send("Hello from server !!");
 });
-
+app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);
 
 //handle erros
