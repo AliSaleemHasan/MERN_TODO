@@ -11,9 +11,7 @@ function Login() {
           <p>welcome to Todo app</p>
         </div>
         <div className="login__welcomeBy">
-          <a>
-            <Mail />
-          </a>
+          <Mail />
           <h6>ali1saleem1hasan@gmail.com</h6>
         </div>
       </div>

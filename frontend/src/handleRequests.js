@@ -59,6 +59,7 @@ const handleRequests = {
       },
       body: JSON.stringify({ username: username, password: password }),
     });
+    return response.json();
   },
   signup: async (username, password, firstname, lastname) => {
     const response = await fetch(usersUri + "/signup", {
@@ -73,6 +74,7 @@ const handleRequests = {
         lastname: lastname,
       }),
     });
+    return response.json();
   },
 };
 
