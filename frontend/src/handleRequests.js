@@ -1,4 +1,5 @@
 const uri = "http://localhost:3000/tasks";
+const usersUri = "http://localhost:3000/users";
 const handleRequests = {
   get: async (urip) => {
     const response = await fetch(uri + urip);
@@ -49,6 +50,29 @@ const handleRequests = {
       method: "DELETE",
     });
     return response.json();
+  },
+  login: async (username, password) => {
+    const response = await fetch(usersUri + "/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: username, password: password }),
+    });
+  },
+  signup: async (username, password, firstname, lastname) => {
+    const response = await fetch(usersUri + "/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        firstname: firstname,
+        lastname: lastname,
+      }),
+    });
   },
 };
 
