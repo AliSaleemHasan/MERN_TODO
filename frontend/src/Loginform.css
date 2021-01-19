@@ -1,0 +1,95 @@
+.loginform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.loginform > h2 {
+  margin: 10px 0px 20px;
+}
+.loginform > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 70%;
+}
+.login__Oauth {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.oauth {
+  background-color: #434343;
+  width: 33%;
+  margin: 10px 10px 50px;
+  border-radius: 10px;
+  color: #fefefe;
+  outline: none;
+  border: none;
+}
+.oauth:hover {
+  cursor: pointer;
+  box-shadow: 0.6px 0.6px 5px 1px #111;
+}
+
+.oauth .MuiSvgIcon-root {
+  color: #111;
+}
+
+.loginform .MuiAvatar-root {
+  width: 60px;
+  height: 60px;
+  margin: 20px;
+}
+
+.loginform > form > input {
+  background-color: #424242;
+  outline: none;
+  border: none;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #151515;
+  margin-bottom: 30px;
+  color: #fefefe;
+}
+
+.button1,
+.button2 {
+  width: 100%;
+  height: 40px;
+  font-weight: bold;
+  outline: none;
+  color: #fefefe;
+  margin-bottom: 10px;
+  border: none;
+}
+.button1 {
+  background-color: #151515;
+}
+.button2 {
+  background-color: #434343;
+  box-shadow: 1px 1px 3px #000;
+}
+
+.button1:hover {
+  cursor: pointer;
+  box-shadow: 0.1px 0.1px 1px #000;
+}
+.button2:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 4px #000;
+}
+
+.loginform > form .MuiSvgIcon-root {
+  background-color: #151515;
+  box-shadow: 0.6px 0.6px 5px 1px #111;
+  color: #fefefe;
+}
+
+.gmailLogin {
+  margin-top: 50px;
+  margin-left: auto;
+  border: none;
+  background-color: #f00;
+}

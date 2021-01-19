@@ -1,6 +1,10 @@
 * {
   margin: 0;
 }
+a {
+  text-decoration: none;
+  color: #111;
+}
 body {
   overflow: hidden;
   background-color: #424240;
