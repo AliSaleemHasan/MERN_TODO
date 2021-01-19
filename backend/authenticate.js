@@ -8,7 +8,7 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const config = require("./config");
 exports.localPassport = passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(user.deserializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 exports.getToken = (payload) => {
   return jwt.sign(payload, config.secretKey, { expiresIn: "3d" });
@@ -25,3 +25,5 @@ exports.jwtPassport = passport.use(
     });
   })
 );
+
+exports.varifyUser = passport.authenticate("jwt", { session: false });
