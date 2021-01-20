@@ -4,7 +4,7 @@ import "./Loginform.css";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import MailIcon from "@material-ui/icons/Mail";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import handleRequests from "./handleRequests";
+import handleRequests from "../handleRequests.js";
 import { useHistory } from "react-router-dom";
 
 function Loginform() {
@@ -15,6 +15,7 @@ function Loginform() {
   const [lastname, SetLastname] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
+
   const changeToSignup = (e) => {
     e.preventDefault();
     setType("Signup");
@@ -26,6 +27,18 @@ function Loginform() {
     setError("");
   };
 
+  const handleGoogleLogin = (e) => {
+    e.preventDefault();
+    handleRequests
+      .googleOauth()
+      .then((response) => console.table(response))
+      .catch((err) => console.log(err));
+  };
+
+  const handleGithubLogin = (e) => {
+    e.preventDefault();
+    window.open("http://localhost:3000/auth/github", "_self");
+  };
   const handleLogin = (e) => {
     e.preventDefault();
     setError("");
@@ -65,12 +78,12 @@ function Loginform() {
     <div className="loginform">
       <h2>Login With</h2>
       <div className="login__Oauth">
-        <button className="oauth" type="submit">
+        <button onClick={handleGoogleLogin} className="oauth" type="submit">
           <MailIcon />
           <p>Google</p>
         </button>
 
-        <button className="oauth" type="submit">
+        <button onClick={handleGithubLogin} className="oauth" type="submit">
           <GitHubIcon />
           <p>Github</p>
         </button>

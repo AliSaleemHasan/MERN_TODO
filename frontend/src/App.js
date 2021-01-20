@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import "./App.css";
-import Header from "./Header.js";
-import Login from "./Login";
-import Todo from "./Todo.js";
+import Header from "./components/Header.js";
+import Login from "./components/Login.js";
+import Todo from "./components/Todo.js";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 function App() {
   return (
@@ -17,8 +18,6 @@ function App() {
           </Route>
         </Switch>
       </Router>
-      {/* <Header />
-      <Todo type="Todos" /> */}
     </div>
   );
 }

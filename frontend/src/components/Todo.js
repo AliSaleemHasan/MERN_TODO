@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Todo.css";
-import handleRequests from "./handleRequests.js";
-
+import handleRequests from "../handleRequests.js";
 import Delete from "@material-ui/icons/Delete";
 import Checkbox from "@material-ui/core/Checkbox";
 import Edit from "@material-ui/icons/Edit";
@@ -42,7 +41,10 @@ function Todo({ type }) {
     e.preventDefault();
     let cp = [...todos];
     if (checked === undefined) {
-      let updatedTodo = prompt("please enter your updated todo ");
+      let updatedTodo = prompt(
+        "please enter your updated todo ",
+        cp[index].task
+      );
       if (updatedTodo) {
         handleRequests
           .put(id, updatedTodo)
@@ -104,19 +106,22 @@ function Todo({ type }) {
       </div>
       {todos?.map(({ task, checked, _id }, index) => (
         <div className="todo__container" key={_id}>
-          <p className="todo__containerParagraph">{task}</p>
-          <div className="todo__containerIcons">
+          <div className="todo__containerLeft">
+            <Checkbox
+              size="small"
+              color="primary"
+              checked={checked}
+              onClick={handleUpdate(_id, index, !checked)}
+            />
+            <p className="todo__containerParagraph">{task}</p>
+          </div>
+          <div className="todo__containerRight">
             <IconButton onClick={handleUpdate(_id, index)}>
               <Edit className="todo__icon1" />
             </IconButton>
             <IconButton onClick={handleDeleteOne(_id)}>
               <Delete className="todo__icon2" />
             </IconButton>
-            <Checkbox
-              checked={checked}
-              color="primary"
-              onClick={handleUpdate(_id, index, !checked)}
-            />
           </div>
         </div>
       ))}

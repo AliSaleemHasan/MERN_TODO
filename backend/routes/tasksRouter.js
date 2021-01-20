@@ -8,7 +8,7 @@ tasksRouter
   .route("/")
   .get((req, res, next) => {
     tasks
-      .find({})
+      .find()
       .then(
         (tasks) => {
           res.statusCode = 200;

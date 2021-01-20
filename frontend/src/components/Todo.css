@@ -44,19 +44,23 @@
   justify-content: space-between;
   border-bottom: 1px solid #e8e6e2;
 
-  padding: 10px 10px;
+  padding: 5px;
 }
 
+.todo__containerLeft {
+  display: flex;
+  align-items: center;
+}
 .todo__containerParagraph {
   color: #efefef;
   font-weight: 400;
   font-variant: small-caps;
 }
-.todo__containerIcons {
+.todo__containerRight {
   display: flex;
   align-items: center;
 }
-.todo__containerIcons .MuiSvgIcon-root {
+.todo__containerRight .MuiSvgIcon-root {
   margin: 0 4px;
 }
 
@@ -66,4 +70,9 @@
 
 .todo__icon2 {
   color: #ff2a3b;
+}
+
+.PrivateSwitchBase-input-4 {
+  margin-top: 10px;
+  color: #2a75ff;
 }
