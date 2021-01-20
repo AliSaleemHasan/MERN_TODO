@@ -4,7 +4,7 @@ const User = require("./models/users");
 const jwt = require("jsonwebtoken");
 const jwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
-
+const googleStrategy = require("passport-google-oauth2").Strategy;
 const githubStrategy = require("passport-github").Strategy;
 
 const config = require("./config");
@@ -28,6 +28,32 @@ exports.jwtPassport = passport.use(
   })
 );
 
+exports.googlePassport = passport.use(
+  new googleStrategy(
+    {
+      clientID: config.googleId,
+      clientSecret: config.googleSecret,
+      callbackURL: "http://localhost:3000/google/loggedIn",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      User.findOne({ username: profile.username }).then((user, err) => {
+        if (err) return done(err);
+        else if (user) {
+          return done(null, user);
+        } else {
+          user = new User({ username: profile.displayName });
+          user.firstname = profile.name.givenName;
+          user.lastname = profile.name.familyName;
+
+          user.image = profile.photos[0].value;
+          user.save().then((user, err) => {
+            return done(err, user);
+          });
+        }
+      });
+    }
+  )
+);
 exports.githubPassport = passport.use(
   new githubStrategy(
     {
