@@ -10,6 +10,7 @@ const passport = require("passport");
 //routes
 const tasksRouter = require("./routes/tasksRouter");
 const usersRouter = require("./routes/usersRouter");
+const authRouter = require("./routes/o_authRouter");
 const port = 3000;
 const name = "localhost";
 
@@ -31,6 +32,7 @@ app.use(passport.initialize());
 app.get("/", (req, res) => {
   res.send("Hello from server !!");
 });
+app.use("/", authRouter);
 app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);
 

@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 const jwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 
+const githubStrategy = require("passport-github").Strategy;
+
 const config = require("./config");
 exports.localPassport = passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -24,6 +26,37 @@ exports.jwtPassport = passport.use(
       return done(user, err);
     });
   })
+);
+
+exports.githubPassport = passport.use(
+  new githubStrategy(
+    {
+      clientID: config.githubID,
+      clientSecret: config.githubSecret,
+      callbackURL: "http://localhost:3000/github/loggedIn",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      console.log(profile);
+
+      User.findOne({ username: profile.username }).then((user, err) => {
+        if (err) return done(err);
+        else if (user) {
+          return done(null, user);
+        } else {
+          user = new User({ username: profile.username });
+          if (profile.name) {
+            let name = profile.name.split(" ").toString();
+            user.firstname = name[0];
+            user.lastname = name[name.length - 1];
+          }
+          user.image = profile.photos[0].value;
+          user.save().then((user, err) => {
+            return done(err, user);
+          });
+        }
+      });
+    }
+  )
 );
 
 exports.varifyUser = passport.authenticate("jwt", { session: false });
