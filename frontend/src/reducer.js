@@ -6,10 +6,10 @@ export const actionTypes = {
 };
 
 const reducer = (state, action) => {
-  console.log("Action is " + action);
+  console.log(action);
   switch (action.type) {
     case actionTypes.SET_USER:
-      return { user: state.user };
+      return { user: action.user };
     default:
       return state;
   }

@@ -6,23 +6,24 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Edit from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import { IconButton } from "@material-ui/core";
-
+import { useStateValue } from "../StateProvider.js";
 function Todo({ type }) {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
-
+  const [_id, set_id] = useState("");
   const submitInput = (e) => {
     e.preventDefault();
     handleRequests
-      .post(input)
-      .then((data1) =>
+      .post(input, localStorage.getItem("_id"))
+      .then((data1) => {
+        console.log(data1);
         handleRequests
           .get(`/${data1.task._id}`)
           .then((data) => {
             setTodos([...todos, data1.task]);
           })
-          .catch((err) => console.log(err))
-      )
+          .catch((err) => console.log(err));
+      })
       .catch((err) => console.log(err));
 
     setInput("");
@@ -77,9 +78,9 @@ function Todo({ type }) {
     setTodos(todos.filter((todo) => todo._id != id));
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     handleRequests
-      .get("")
+      .get(`/?author=${localStorage.getItem("_id")}`)
       .then((data) => {
         setTodos(data.tasks);
       })

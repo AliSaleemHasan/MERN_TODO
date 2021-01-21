@@ -6,7 +6,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import handleRequests from "../handleRequests.js";
 import { useHistory } from "react-router-dom";
-
+import { useStateValue } from "../StateProvider.js";
+import { actionTypes } from "../reducer";
 function Loginform() {
   const [type, setType] = useState("Login");
   const [username, SetUsername] = useState("");
@@ -14,6 +15,7 @@ function Loginform() {
   const [firstname, SetFirstname] = useState("");
   const [lastname, SetLastname] = useState("");
   const [error, setError] = useState("");
+  const [{ user }, dispatch] = useStateValue();
   const history = useHistory();
 
   const changeToSignup = (e) => {
@@ -48,6 +50,11 @@ function Loginform() {
         console.log("success" + response.success);
         if (!response.success) setError(response.status);
         else {
+          localStorage.setItem("_id", response.user._id);
+          dispatch({
+            type: actionTypes.SET_USER,
+            user: response.user,
+          });
           history.push("/");
         }
       })
@@ -65,14 +72,13 @@ function Loginform() {
         if (!response.success) setError(response.status);
         else {
           setType("Login");
+          SetUsername("");
+          SetPassword("");
+          SetFirstname("");
+          SetLastname("");
         }
       })
       .catch((err) => console.log(err));
-
-    SetUsername("");
-    SetPassword("");
-    SetFirstname("");
-    SetLastname("");
   };
   return type === "Login" ? (
     <div className="loginform">

@@ -7,6 +7,10 @@ const tasks = new Schema(
       type: String,
       required: true,
     },
+    author: {
+      type: String,
+      required: true,
+    },
     checked: {
       type: Boolean,
       default: false,

@@ -7,8 +7,9 @@ tasksRouter.use(bodyParser.json());
 tasksRouter
   .route("/")
   .get((req, res, next) => {
+    console.log(req.query);
     tasks
-      .find()
+      .find(req.query)
       .then(
         (tasks) => {
           res.statusCode = 200;

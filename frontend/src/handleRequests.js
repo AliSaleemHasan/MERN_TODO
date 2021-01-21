@@ -28,7 +28,7 @@ const handleRequests = {
     });
     return response.json();
   },
-  post: async (input) => {
+  post: async (input, id) => {
     const response = await fetch(uri, {
       method: "POST",
       mode: "cors",
@@ -36,7 +36,7 @@ const handleRequests = {
         "Content-Type": "application/json",
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify({ task: input }),
+      body: JSON.stringify({ task: input, author: id }),
     });
     return response.json();
   },
