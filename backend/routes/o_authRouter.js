@@ -4,37 +4,36 @@ const passport = require("passport");
 const authenticate = require("../authenticate");
 authRouter.use(bodyParser.json());
 
-authRouter.get("/auth/github", passport.authenticate("github"));
+authRouter.get("/github", passport.authenticate("github"));
 
 authRouter.get(
-  "/github/loggedIn",
-  passport.authenticate("github"),
-  (req, res) => {
-    res.redirect("http://localhost:3001");
-  }
+  "/github/redirect",
+  passport.authenticate("github", {
+    successRedirect: "http://localhost:3000",
+    failureRedirect: "/auth/login/failed",
+  })
 );
 
-authRouter.get("/getuser", (req, res) => {
-  let token = authenticate.getToken({ _id: req.user._id });
-  res.statusCode = 200;
+authRouter.get("/login/failed", (req, res, next) => {
+  res.statusCode = 401;
   res.setHeader("Content-Type", "application/json");
-  res.json({ success: true, token: token, user: req.user });
+  res.json({
+    success: false,
+    status: "faild to log in!",
+  });
 });
 
 authRouter.get(
-  "/auth/google",
+  "/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 authRouter.get(
   "/google/loggedIn",
-  passport.authenticate("google"),
-  (req, res, next) => {
-    let token = authenticate.getToken({ _id: req.user._id });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.json({ success: true, token: token, user: req.user });
-  }
+  passport.authenticate("google", {
+    successRedirect: "http://localhost:3000",
+    failureRedirect: "/auth/login/failed",
+  })
 );
 
 module.exports = authRouter;

@@ -39,7 +39,7 @@ function Loginform() {
 
   const handleGithubLogin = (e) => {
     e.preventDefault();
-    window.open("http://localhost:3000/auth/github", "_self");
+    window.open("http://localhost:8080/auth/github", "_self");
   };
   const handleLogin = (e) => {
     e.preventDefault();

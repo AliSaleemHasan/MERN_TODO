@@ -1,6 +1,6 @@
-const uri = "http://localhost:3000/tasks";
-const usersUri = "http://localhost:3000/users";
-const OauthUri = "http://localhost:3000/auth";
+const uri = "/tasks";
+const usersUri = "/users";
+const OauthUri = "/auth";
 const handleRequests = {
   get: async (urip) => {
     const response = await fetch(uri + urip);
@@ -74,20 +74,6 @@ const handleRequests = {
         firstname: firstname,
         lastname: lastname,
       }),
-    });
-    return response.json();
-  },
-  googleOauth: async () => {
-    const response = await fetch(OauthUri + "/google", {
-      method: "GET",
-      mode: "no-cors",
-    });
-    return response.json();
-  },
-  githubOauth: async () => {
-    const response = await fetch(OauthUri + "/github", {
-      method: "GET",
-      mode: "no-cors",
     });
     return response.json();
   },

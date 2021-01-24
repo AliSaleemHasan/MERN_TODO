@@ -59,7 +59,7 @@ exports.githubPassport = passport.use(
     {
       clientID: config.githubID,
       clientSecret: config.githubSecret,
-      callbackURL: "http://localhost:3000/github/loggedIn",
+      callbackURL: "http://localhost:8080/auth/github/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
       console.log(profile);
