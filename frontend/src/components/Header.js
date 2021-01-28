@@ -5,12 +5,13 @@ import SearchIcon from "@material-ui/icons/Search";
 import { IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory } from "react-router-dom";
+import { useStateValue } from "../StateProvider";
 function Header() {
   const [small, setsmall] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [toggleSidebar, setToggleSideBar] = useState(false);
   const history = useHistory();
-
+  const [{ user }, dispatch] = useStateValue();
   const logout = (e) => {
     e.preventDefault();
     localStorage.removeItem("User");
@@ -75,7 +76,9 @@ function Header() {
 
         <div className="header__avatar">
           <button onClick={logout}>Log out</button>
-          <Avatar />
+          <Avatar src={user?.image ? user.image : ""}>
+            {user?.image ? " " : user?.username.charAt(0).toUpperCase()}
+          </Avatar>
         </div>
       </div>
     </div>

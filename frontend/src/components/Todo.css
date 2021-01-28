@@ -76,3 +76,7 @@
   margin-top: 10px;
   color: #2a75ff;
 }
+
+.todo__containerParagraphChecked {
+  text-decoration: line-through;
+}

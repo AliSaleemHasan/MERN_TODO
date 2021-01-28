@@ -126,7 +126,13 @@ function Todo({ type }) {
               checked={checked}
               onClick={handleUpdate(_id, index, !checked)}
             />
-            <p className="todo__containerParagraph">{task}</p>
+            <p
+              className={`todo__containerParagraph ${
+                checked ? "todo__containerParagraphChecked" : ""
+              }`}
+            >
+              {task}
+            </p>
           </div>
           <div className="todo__containerRight">
             <IconButton onClick={handleUpdate(_id, index)}>
