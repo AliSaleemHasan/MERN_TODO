@@ -2,8 +2,8 @@ const uri = "/tasks";
 const usersUri = "/users";
 const OauthUri = "/auth";
 const handleRequests = {
-  get: async (urip) => {
-    const response = await fetch(uri + urip);
+  get: async () => {
+    const response = await fetch(uri);
     return response.json();
   },
   put: async (id, updatedTodo) => {
@@ -75,6 +75,10 @@ const handleRequests = {
         lastname: lastname,
       }),
     });
+    return response.json();
+  },
+  getUser: async () => {
+    const response = await fetch("/users/user");
     return response.json();
   },
 };

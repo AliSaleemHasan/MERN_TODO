@@ -4,11 +4,18 @@ import { Avatar } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import { useHistory } from "react-router-dom";
 function Header() {
   const [small, setsmall] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [toggleSidebar, setToggleSideBar] = useState(false);
+  const history = useHistory();
 
+  const logout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("User");
+    history.push("/login");
+  };
   const handleSmall = () => {
     setsmall(window.innerWidth < 768 ? true : false);
     //initial value of toggle is false
@@ -67,6 +74,7 @@ function Header() {
         </ul>
 
         <div className="header__avatar">
+          <button onClick={logout}>Log out</button>
           <Avatar />
         </div>
       </div>

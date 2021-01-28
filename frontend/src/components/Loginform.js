@@ -31,10 +31,7 @@ function Loginform() {
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
-    handleRequests
-      .googleOauth()
-      .then((response) => console.table(response))
-      .catch((err) => console.log(err));
+    window.open("http://localhost:8080/auth/google", "_self");
   };
 
   const handleGithubLogin = (e) => {
@@ -47,14 +44,8 @@ function Loginform() {
     handleRequests
       .login(username, password)
       .then((response) => {
-        console.log("success" + response.success);
         if (!response.success) setError(response.status);
         else {
-          localStorage.setItem("_id", response.user._id);
-          dispatch({
-            type: actionTypes.SET_USER,
-            user: response.user,
-          });
           history.push("/");
         }
       })

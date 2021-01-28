@@ -9,9 +9,13 @@ authRouter.get("/github", passport.authenticate("github"));
 authRouter.get(
   "/github/redirect",
   passport.authenticate("github", {
-    successRedirect: "http://localhost:3000",
     failureRedirect: "/auth/login/failed",
-  })
+  }),
+  (req, res) => {
+    let token = authenticate.getToken({ id: req.user._id });
+    res.cookie("UTOF", token, { httpOnly: true, sameSite: "lax" });
+    res.redirect("http://localhost:3000");
+  }
 );
 
 authRouter.get("/login/failed", (req, res, next) => {
@@ -31,9 +35,13 @@ authRouter.get(
 authRouter.get(
   "/google/loggedIn",
   passport.authenticate("google", {
-    successRedirect: "http://localhost:3000",
     failureRedirect: "/auth/login/failed",
-  })
+  }),
+  (req, res) => {
+    let token = authenticate.getToken({ id: req.user._id });
+    res.cookie("UTOF", token, { httpOnly: true, sameSite: "lax" });
+    res.redirect("http://localhost:3000");
+  }
 );
 
 module.exports = authRouter;

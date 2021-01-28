@@ -17,6 +17,19 @@ usersRouter.get("/", (req, res) => {
   res.send("hello from  users router!!");
 });
 
+usersRouter.get("/user", authenticate.verfiyJwt, (req, res, next) => {
+  console.log(req.user);
+  User.findById(req.user)
+    .then((user) => {
+      console.log(user);
+      if (!user) {
+        return res.status(404).json({ error: "User not found !" });
+      }
+      res.status(200).json({ success: true, user: user });
+    })
+    .catch((err) => next(err));
+});
+
 usersRouter.post("/signup", (req, res, next) => {
   try {
     Joi.attempt(req.body, scheam);
@@ -56,18 +69,18 @@ usersRouter.post(
   "/login",
   passport.authenticate("local", { failWithError: true }),
   function (req, res, next) {
-    let token = authenticate.getToken({ _id: req.user._id });
+    let token = authenticate.getToken({ id: req.user._id });
+    res.cookie("UTOF", token, { httpOnly: true, sameSite: "lax" });
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.json({
       success: true,
-      token: token,
       user: req.user,
       status: "you are successfuly logged in !",
     });
   },
   function (err, req, res, next) {
-    res.statusCode = 200;
+    res.statusCode = 401;
     res.setHeader("Content-Type", "application/json");
     res.json({
       success: false,

@@ -16,24 +16,23 @@ exports.getToken = (payload) => {
   return jwt.sign(payload, config.secretKey, { expiresIn: "3d" });
 };
 
-const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = config.secretKey;
-
-exports.jwtPassport = passport.use(
-  new jwtStrategy(opts, (payload, done) => {
-    User.findOne({ _id: payload._id }).then((user, err) => {
-      return done(user, err);
-    });
-  })
-);
-
+exports.verfiyJwt = (req, res, next) => {
+  let token = req.cookies.UTOF;
+  jwt.verify(token, config.secretKey, (err, user) => {
+    if (err) {
+      return res.status(401).json({ error: "fucking error mother fucker" });
+    }
+    req.user = user.id;
+    console.log("req.user is " + req.user);
+    next();
+  });
+};
 exports.googlePassport = passport.use(
   new googleStrategy(
     {
       clientID: config.googleId,
       clientSecret: config.googleSecret,
-      callbackURL: "http://localhost:3000/google/loggedIn",
+      callbackURL: "http://localhost:8080/auth/google/loggedIn",
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ username: profile.username }).then((user, err) => {
@@ -84,5 +83,3 @@ exports.githubPassport = passport.use(
     }
   )
 );
-
-exports.varifyUser = passport.authenticate("jwt", { session: false });

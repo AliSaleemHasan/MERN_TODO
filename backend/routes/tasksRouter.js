@@ -1,15 +1,14 @@
 const tasksRouter = require("express").Router();
 const bodyParser = require("body-parser");
 const tasks = require("../models/tasks");
-
+const authenticate = require("../authenticate");
 tasksRouter.use(bodyParser.json());
 
 tasksRouter
   .route("/")
-  .get((req, res, next) => {
-    console.log(req.query);
+  .get(authenticate.verfiyJwt, (req, res, next) => {
     tasks
-      .find(req.query)
+      .find({ author: req.user })
       .then(
         (tasks) => {
           res.statusCode = 200;
@@ -20,7 +19,7 @@ tasksRouter
       )
       .catch((err) => next(err));
   })
-  .post((req, res, next) => {
+  .post(authenticate.verfiyJwt, (req, res, next) => {
     tasks
       .create(req.body)
       .then(
@@ -33,14 +32,14 @@ tasksRouter
       )
       .catch((err) => next(err));
   })
-  .put((req, res, next) => {
+  .put(authenticate.verfiyJwt, (req, res, next) => {
     res.statusCode = 400;
     res.contentType("Content-Type", "text/plain");
     res.end("Cannot do put operation on /tasks ");
   })
-  .delete((req, res, next) => {
+  .delete(authenticate.verfiyJwt, (req, res, next) => {
     tasks
-      .deleteMany({})
+      .deleteMany({ author: req.user })
       .then(
         (response) => {
           res.statusCode = 200;
@@ -54,7 +53,7 @@ tasksRouter
 
 tasksRouter
   .route("/:taskId")
-  .get((req, res, next) => {
+  .get(authenticate.verfiyJwt, (req, res, next) => {
     tasks
       .findById(req.params.taskId)
       .then(
@@ -76,11 +75,11 @@ tasksRouter
       )
       .catch((err) => next(err));
   })
-  .post((req, res, next) => {
+  .post(authenticate.verfiyJwt, (req, res, next) => {
     res.statusCode = 400;
     res.end("cannot do post on task: " + req.params.taskId);
   })
-  .put((req, res, next) => {
+  .put(authenticate.verfiyJwt, (req, res, next) => {
     tasks
       .findByIdAndUpdate(req.params.taskId, { $set: req.body }, { new: true })
       .then(
@@ -93,7 +92,7 @@ tasksRouter
       )
       .catch((err) => next(err));
   })
-  .delete((req, res, next) => {
+  .delete(authenticate.verfiyJwt, (req, res, next) => {
     tasks
       .findByIdAndDelete(req.params.taskId)
       .then(

@@ -1,10 +1,9 @@
 const express = require("express");
-const http = require("http");
-const createError = require("http-errors");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const config = require("./config");
 const passport = require("passport");
+const cookieParser = require("cookie-parser");
 
 //routes
 const tasksRouter = require("./routes/tasksRouter");
@@ -24,7 +23,7 @@ connect.then((db) => {
 
 const app = express();
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 app.use(passport.initialize());
 
 app.get("/", (req, res) => {

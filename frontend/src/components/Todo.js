@@ -7,22 +7,18 @@ import Edit from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import { IconButton } from "@material-ui/core";
 import { useStateValue } from "../StateProvider.js";
+import { actionTypes } from "../reducer";
 function Todo({ type }) {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
-  const [_id, set_id] = useState("");
+  const [{ user }, dispatch] = useStateValue();
+
   const submitInput = (e) => {
     e.preventDefault();
     handleRequests
-      .post(input, localStorage.getItem("_id"))
+      .post(input, user?._id)
       .then((data1) => {
-        console.log(data1);
-        handleRequests
-          .get(`/${data1.task._id}`)
-          .then((data) => {
-            setTodos([...todos, data1.task]);
-          })
-          .catch((err) => console.log(err));
+        setTodos([...todos, data1.task]);
       })
       .catch((err) => console.log(err));
 
@@ -72,20 +68,36 @@ function Todo({ type }) {
     e.preventDefault();
     handleRequests
       .deleteOne(id)
-
       .then((data) => console.log(data))
       .catch((err) => console.log(err));
     setTodos(todos.filter((todo) => todo._id != id));
   };
 
-  useEffect(async () => {
+  const setUserContext = () => {
+    handleRequests.getUser().then((user1) => {
+      if (user1) {
+        console.log(user1);
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: user1.user,
+        });
+        return user;
+      }
+    });
+  };
+
+  const getLoggedInUserInfo = () => {
+    if (!user) setUserContext();
     handleRequests
-      .get(`/?author=${localStorage.getItem("_id")}`)
+      .get()
       .then((data) => {
+        console.log(data);
         setTodos(data.tasks);
       })
       .catch((err) => console.log(err));
-  }, []);
+  };
+
+  useEffect(getLoggedInUserInfo, [user]);
 
   return (
     <div className="todo">
