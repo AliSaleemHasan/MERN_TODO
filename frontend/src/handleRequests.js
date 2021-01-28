@@ -81,6 +81,17 @@ const handleRequests = {
     const response = await fetch("/users/user");
     return response.json();
   },
+  search: async (query) => {
+    const response = await fetch("/tasks/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: query }),
+    });
+
+    return response.json();
+  },
 };
 
 export default handleRequests;

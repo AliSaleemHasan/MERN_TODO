@@ -4,15 +4,36 @@ const tasks = require("../models/tasks");
 const authenticate = require("../authenticate");
 tasksRouter.use(bodyParser.json());
 
+tasksRouter.post("/search", authenticate.verfiyJwt, (req, res, next) => {
+  tasks
+    .find(
+      { author: req.user, $text: { $search: req.body.query } },
+      { score: { $meta: "textScore" } }
+    )
+    .sort({ score: { $meta: "textScore" } })
+    .then((tasks) => {
+      if (!tasks) {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        return res.json({ success: false });
+      }
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.json({ success: true, tasks: tasks });
+    })
+    .catch((err) => next(err));
+});
 tasksRouter
   .route("/")
   .get(authenticate.verfiyJwt, (req, res, next) => {
+    console.log(req.user);
     tasks
       .find({ author: req.user })
       .then(
         (tasks) => {
           res.statusCode = 200;
           res.setHeader("Content-Type", "application/json");
+          console.log(tasks);
           res.json({ tasks: tasks });
         },
         (err) => next(err)
@@ -105,4 +126,5 @@ tasksRouter
       )
       .catch((err) => next(err));
   });
+
 module.exports = tasksRouter;

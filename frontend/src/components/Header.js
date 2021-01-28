@@ -4,7 +4,7 @@ import { Avatar } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
 function Header() {
   const [small, setsmall] = useState(false);
@@ -12,9 +12,14 @@ function Header() {
   const [toggleSidebar, setToggleSideBar] = useState(false);
   const history = useHistory();
   const [{ user }, dispatch] = useStateValue();
+  const [input, setInput] = useState("");
+
+  const textSearch = (e) => {
+    e.preventDefault();
+    history.push(`/search/${input}`);
+  };
   const logout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("User");
     history.push("/login");
   };
   const handleSmall = () => {
@@ -41,11 +46,13 @@ function Header() {
   return (
     <div className="header">
       <div className="header__left ">
-        <img
-          src="https://www.freelogodesign.org/file/app/client/thumb/1d626996-4ec0-44ef-8356-1164949aa1e6_200x200.png?1610740223773"
-          alt="logo"
-          className="header__logo"
-        />
+        <Link to="/">
+          <img
+            src="https://www.freelogodesign.org/file/app/client/thumb/1d626996-4ec0-44ef-8356-1164949aa1e6_200x200.png?1610740223773"
+            alt="logo"
+            className="header__logo"
+          />
+        </Link>
       </div>
       <div className="header__center">
         <form
@@ -55,10 +62,15 @@ function Header() {
           } `}
         >
           <SearchIcon onClick={handleToggle} className="header__searchIcon" />
-          <input type="text" />
-          <button type="submit"></button>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            type="text"
+          />
+          <button onClick={textSearch} type="submit"></button>
         </form>
       </div>
+
       <div
         className={`header__right  ${toggleSidebar ? "header__rightTO" : " "}`}
       >
