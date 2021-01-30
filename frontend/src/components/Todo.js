@@ -8,10 +8,12 @@ import Button from "@material-ui/core/Button";
 import { IconButton } from "@material-ui/core";
 import { useStateValue } from "../StateProvider.js";
 import { actionTypes } from "../reducer";
+import { useParams } from "react-router-dom";
 function Todo({ type }) {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
   const [{ user }, dispatch] = useStateValue();
+  const searchText = useParams();
 
   const submitInput = (e) => {
     e.preventDefault();
@@ -70,53 +72,60 @@ function Todo({ type }) {
       .deleteOne(id)
       .then((data) => console.log(data))
       .catch((err) => console.log(err));
-    setTodos(todos.filter((todo) => todo._id != id));
+    setTodos(todos.filter((todo) => todo._id !== id));
   };
 
-  const setUserContext = () => {
-    handleRequests.getUser().then((user1) => {
-      if (user1) {
-        console.log(user1);
-        dispatch({
-          type: actionTypes.SET_USER,
-          user: user1.user,
-        });
-        return user;
-      }
-    });
+  const getSearchTodos = () => {
+    if (searchText) {
+      handleRequests
+        .search(searchText.searchText)
+        .then((data) => {
+          if (data.success) {
+            setTodos(data.tasks);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
-
   const getLoggedInUserInfo = () => {
-    if (!user) setUserContext();
     handleRequests
       .get()
       .then((data) => {
-        console.log(data);
         setTodos(data.tasks);
       })
       .catch((err) => console.log(err));
   };
 
-  useEffect(getLoggedInUserInfo, [user]);
+  useEffect(() => {
+    type === "Search" ? getSearchTodos() : getLoggedInUserInfo();
+  }, [user, searchText]);
 
   return (
     <div className="todo">
-      <h2 className="todo__title"> {type}</h2>
-      <div className="todo__fun">
-        <form className="todo__input">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            type="text"
-            placeholder="New Todo.."
-          />
-          <button type="submit" onClick={submitInput}></button>
-        </form>
-
-        <Button type="submit" color="secondary" onClick={handleDeleteAll}>
-          DELETE ALL
-        </Button>
+      <div className="todo__head">
+        <h2 className="todo__title"> {type}</h2>
+        <h5 className="todo__user"> {user?.username}</h5>
       </div>
+      {type === "Search" ? (
+        " "
+      ) : (
+        <div className="todo__fun">
+          <form className="todo__input">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              type="text"
+              placeholder="New Todo.."
+            />
+            <button type="submit" onClick={submitInput}></button>
+          </form>
+
+          <Button type="submit" color="secondary" onClick={handleDeleteAll}>
+            DELETE ALL
+          </Button>
+        </div>
+      )}
+
       {todos?.map(({ task, checked, _id }, index) => (
         <div className="todo__container" key={_id}>
           <div className="todo__containerLeft">

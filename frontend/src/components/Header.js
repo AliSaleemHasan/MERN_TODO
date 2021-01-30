@@ -6,6 +6,9 @@ import { IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory, Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { actionTypes } from "../reducer";
+import handleRequests from "../handleRequests";
 function Header() {
   const [small, setsmall] = useState(false);
   const [toggle, setToggle] = useState(false);
@@ -17,10 +20,20 @@ function Header() {
   const textSearch = (e) => {
     e.preventDefault();
     history.push(`/search/${input}`);
+    setInput("");
   };
   const logout = (e) => {
-    e.preventDefault();
-    history.push("/login");
+    handleRequests
+      .logout()
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: null,
+        });
+        history.push("/login");
+      })
+      .catch((err) => console.log(err));
   };
   const handleSmall = () => {
     setsmall(window.innerWidth < 768 ? true : false);
@@ -39,8 +52,8 @@ function Header() {
   };
 
   useEffect(() => {
+    setToggleSideBar(false);
     window.addEventListener("resize", handleSmall);
-
     return () => window.removeEventListener("resize", handleSmall);
   }, []);
   return (
@@ -80,14 +93,20 @@ function Header() {
         >
           <MenuIcon />
         </IconButton>
+        <IconButton onClick={logout}>
+          <ExitToAppIcon color="inherit" />
+        </IconButton>
 
         <ul className="list">
-          <li>tasks</li>
-          <li>My Day</li>
+          <Link to="/">
+            <li>tasks</li>
+          </Link>
+          <Link to="/search/a">
+            <li>Search</li>
+          </Link>
         </ul>
 
         <div className="header__avatar">
-          <button onClick={logout}>Log out</button>
           <Avatar src={user?.image ? user.image : ""}>
             {user?.image ? " " : user?.username.charAt(0).toUpperCase()}
           </Avatar>

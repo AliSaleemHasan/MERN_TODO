@@ -6,7 +6,8 @@ a {
   color: #111;
 }
 body {
-  overflow: hidden;
+  overflow-x: hidden;
+
   background-color: #323232;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -16,6 +17,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #333;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2a75ff;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

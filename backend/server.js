@@ -1,7 +1,7 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const config = require("./config");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 
@@ -12,20 +12,21 @@ const authRouter = require("./routes/o_authRouter");
 const port = 8080;
 const name = "localhost";
 
-const connect = mongoose.connect(config.mongoUrl, {
+const connect = mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
-connect.then((db) => {
-  console.log("Connected correctly to  DataBase");
-});
+connect
+  .then((db) => {
+    console.log("Connected correctly to  DataBase");
+  })
+  .catch((err) => console.log(err));
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
-
 app.get("/", (req, res) => {
   res.send("Hello from server !!");
 });

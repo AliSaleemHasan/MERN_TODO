@@ -18,10 +18,8 @@ usersRouter.get("/", (req, res) => {
 });
 
 usersRouter.get("/user", authenticate.verfiyJwt, (req, res, next) => {
-  console.log(req.user);
   User.findById(req.user)
     .then((user) => {
-      console.log(user);
       if (!user) {
         return res.status(404).json({ error: "User not found !" });
       }
@@ -102,4 +100,9 @@ usersRouter.post(
 //     });
 //   }
 // );
+
+usersRouter.get("/logout", (req, res) => {
+  res.clearCookie("UTOF");
+  res.status(200).json({ success: true });
+});
 module.exports = usersRouter;

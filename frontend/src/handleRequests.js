@@ -1,6 +1,5 @@
 const uri = "/tasks";
 const usersUri = "/users";
-const OauthUri = "/auth";
 const handleRequests = {
   get: async () => {
     const response = await fetch(uri);
@@ -11,7 +10,6 @@ const handleRequests = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify({ task: updatedTodo }),
     });
@@ -90,6 +88,11 @@ const handleRequests = {
       body: JSON.stringify({ query: query }),
     });
 
+    return response.json();
+  },
+
+  logout: async () => {
+    const response = await fetch("/users/logout");
     return response.json();
   },
 };

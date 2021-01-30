@@ -26,14 +26,13 @@ tasksRouter.post("/search", authenticate.verfiyJwt, (req, res, next) => {
 tasksRouter
   .route("/")
   .get(authenticate.verfiyJwt, (req, res, next) => {
-    console.log(req.user);
     tasks
       .find({ author: req.user })
       .then(
         (tasks) => {
           res.statusCode = 200;
           res.setHeader("Content-Type", "application/json");
-          console.log(tasks);
+
           res.json({ tasks: tasks });
         },
         (err) => next(err)
