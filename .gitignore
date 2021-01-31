@@ -1,5 +1,5 @@
-backend/node_modules
-backend/config.js
-backend/.env
+node_modules
+config.js
+.env
 frontend/node_modules
 frontend/.eslintcache

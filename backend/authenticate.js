@@ -2,12 +2,9 @@ const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const User = require("./models/users");
 const jwt = require("jsonwebtoken");
-const jwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
 const googleStrategy = require("passport-google-oauth2").Strategy;
 const githubStrategy = require("passport-github").Strategy;
 
-const config = require("./config");
 exports.localPassport = passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -17,7 +14,7 @@ exports.getToken = (payload) => {
 };
 
 exports.verfiyJwt = (req, res, next) => {
-  let token = req.cookies?.UTOF;
+  const token = req.cookies?.UTOF;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
       if (err) {

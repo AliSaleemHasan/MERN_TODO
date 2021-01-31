@@ -9,10 +9,9 @@ const cookieParser = require("cookie-parser");
 const tasksRouter = require("./routes/tasksRouter");
 const usersRouter = require("./routes/usersRouter");
 const authRouter = require("./routes/o_authRouter");
-const port = 8080;
-const name = "localhost";
+const port = process.env.PORT || 8080;
 
-const connect = mongoose.connect(process.env.MONGO_URL, {
+const connect = mongoose.connect("mongodb://localhost:27017/todoApp", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -45,6 +44,10 @@ app.use((err, req, res, next) => {
   var statusCode = err.status || 500;
   res.status(statusCode).json(output);
 });
-app.listen(port, name, () => {
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"));
+}
+app.listen(port, () => {
   console.log(`Connected Correctly at: http://localhost:${port}`);
 });
