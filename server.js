@@ -11,11 +11,14 @@ const usersRouter = require("./routes/usersRouter");
 const authRouter = require("./routes/o_authRouter");
 const port = process.env.PORT || 8080;
 
-const connect = mongoose.connect("mongodb://localhost:27017/todoApp", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+const connect = mongoose.connect(
+  process.env.MONGODB_URI || process.env.MONGO_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  }
+);
 connect
   .then((db) => {
     console.log("Connected correctly to  DataBase");

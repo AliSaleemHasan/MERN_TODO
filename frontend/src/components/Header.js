@@ -19,18 +19,20 @@ function Header() {
 
   const textSearch = (e) => {
     e.preventDefault();
+
     history.push(`/search/${input}`);
     setInput("");
   };
   const logout = (e) => {
+    localStorage.removeItem("user");
     handleRequests
       .logout()
       .then((response) => {
-        console.log(response);
         dispatch({
           type: actionTypes.SET_USER,
           user: null,
         });
+
         history.push("/login");
       })
       .catch((err) => console.log(err));

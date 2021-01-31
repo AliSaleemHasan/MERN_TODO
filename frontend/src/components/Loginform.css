@@ -100,3 +100,16 @@
   font-family: sans-serif;
   font-variant: small-caps;
 }
+
+@media (max-width: 786px) {
+  .loginform > form > input {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .loginform .MuiAvatar-root {
+    display: none;
+  }
+  .button1 {
+    margin-top: 10px;
+  }
+}

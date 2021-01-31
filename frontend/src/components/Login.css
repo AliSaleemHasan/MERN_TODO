@@ -50,3 +50,13 @@
     width: 60%;
   }
 }
+
+@media (max-width: 786px) {
+  .login__welcome {
+    display: none;
+  }
+  .login__container {
+    position: initial;
+    width: 90vw;
+  }
+}

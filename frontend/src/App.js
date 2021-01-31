@@ -14,20 +14,18 @@ import handleRequests from "./handleRequests";
 import { actionTypes } from "./reducer";
 function App() {
   const [{ user }, dispatch] = useStateValue();
-
-  const setUserContext = async () => {
-    await handleRequests.getUser().then((user1) => {
-      if (user1.success) {
-        localStorage.setItem("is", true);
-        dispatch({
-          type: actionTypes.SET_USER,
-          user: user1.user,
-        });
-      }
-    });
-  };
-
   useEffect(() => {
+    const setUserContext = async () => {
+      await handleRequests.getUser().then((user1) => {
+        if (user1.success) {
+          localStorage.setItem("user", JSON.stringify(user1.user));
+          dispatch({
+            type: actionTypes.SET_USER,
+            user: user1.user,
+          });
+        }
+      });
+    };
     if (!user) setUserContext();
   }, [user]);
 
@@ -35,10 +33,12 @@ function App() {
     <div className="app">
       <Router>
         <Switch>
-          <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+          <Route path="/login">
+            {localStorage.getItem("user") ? <Redirect to="/" /> : <Login />}
+          </Route>
 
           <Route path="/search/:searchText">
-            {user ? (
+            {localStorage.getItem("user") ? (
               <>
                 <Header />
                 <Todo type="Search" />
@@ -49,7 +49,7 @@ function App() {
           </Route>
 
           <Route path="/">
-            {user ? (
+            {localStorage.getItem("user") ? (
               <>
                 <Header />
                 <Todo type="Todos" />

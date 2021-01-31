@@ -6,6 +6,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import handleRequests from "../handleRequests.js";
 import { useHistory } from "react-router-dom";
+import { useStateValue } from "../StateProvider";
+import { actionTypes } from "../reducer";
 function Loginform() {
   const [type, setType] = useState("Login");
   const [username, SetUsername] = useState("");
@@ -14,6 +16,7 @@ function Loginform() {
   const [lastname, SetLastname] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
+  const [{}, dispatch] = useStateValue();
 
   const changeToSignup = (e) => {
     e.preventDefault();
@@ -43,6 +46,11 @@ function Loginform() {
       .then((response) => {
         if (!response.success) setError(response.status);
         else {
+          localStorage.setItem("user", JSON.stringify(response.user));
+          dispatch({
+            type: actionTypes.SET_USER,
+            user: response.user,
+          });
           history.push("/");
         }
       })
@@ -57,6 +65,7 @@ function Loginform() {
     handleRequests
       .signup(username, password, firstname, lastname)
       .then((response) => {
+        console.log(response);
         if (!response.success) setError(response.status);
         else {
           setType("Login");
@@ -89,7 +98,7 @@ function Loginform() {
           onChange={(e) => SetUsername(e.target.value)}
           type="username"
           required={true}
-          placeholder="Enter Username"
+          placeholder="Enter Email"
         />
         <input
           value={password}
@@ -137,7 +146,7 @@ function Loginform() {
           onChange={(e) => SetUsername(e.target.value)}
           type="username"
           required={true}
-          placeholder="Enter Username"
+          placeholder="Enter Email"
         />
         <input
           type="password"

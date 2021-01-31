@@ -64,11 +64,15 @@
 .todo__containerLeft {
   display: flex;
   align-items: center;
+  flex: 0.5;
 }
 .todo__containerParagraph {
   color: #efefef;
   font-weight: 400;
   font-variant: small-caps;
+  width: 50vw;
+
+  word-wrap: break-word;
 }
 .todo__containerRight {
   display: flex;

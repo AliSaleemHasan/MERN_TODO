@@ -7,12 +7,11 @@ import Edit from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import { IconButton } from "@material-ui/core";
 import { useStateValue } from "../StateProvider.js";
-import { actionTypes } from "../reducer";
 import { useParams } from "react-router-dom";
 function Todo({ type }) {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
   const searchText = useParams();
 
   const submitInput = (e) => {
@@ -98,7 +97,7 @@ function Todo({ type }) {
 
   useEffect(() => {
     type === "Search" ? getSearchTodos() : getLoggedInUserInfo();
-  }, [user, searchText]);
+  }, [user, searchText, type]);
 
   return (
     <div className="todo">
