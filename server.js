@@ -29,9 +29,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
-app.get("/", (req, res) => {
-  res.send("Hello from server !!");
-});
+app.use(express.static("./frontend/build"));
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);
@@ -48,9 +46,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json(output);
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("./frontend/build"));
-}
 app.listen(port, () => {
   console.log(`Connected Correctly at: http://localhost:${port}`);
 });
