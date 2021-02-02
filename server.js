@@ -29,11 +29,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(express.static("./frontend/build"));
+
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);
 
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("./frontend/build"));
+}
 app.use((err, req, res, next) => {
   var output = {
     error: {
