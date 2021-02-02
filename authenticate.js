@@ -33,7 +33,7 @@ exports.googlePassport = passport.use(
     {
       clientID: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: "http://localhost:8080/auth/google/loggedIn",
+      callbackURL: "https://todo-mern-app-s.herokuapp.com/auth/google/loggedIn",
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ username: profile.displayName }).then((user, err) => {
@@ -59,7 +59,7 @@ exports.githubPassport = passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: "http://localhost:8080/auth/github/redirect",
+      callbackURL: "https://todo-mern-app-s.herokuapp.com/auth/github/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ username: profile.username }).then((user, err) => {

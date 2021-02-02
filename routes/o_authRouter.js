@@ -14,7 +14,7 @@ authRouter.get(
   (req, res) => {
     let token = authenticate.getToken({ id: req.user._id });
     res.cookie("UTOF", token, { httpOnly: true, sameSite: "lax" });
-    res.redirect("http://localhost:3000");
+    res.redirect("/");
   }
 );
 
@@ -40,7 +40,7 @@ authRouter.get(
   (req, res) => {
     let token = authenticate.getToken({ id: req.user._id });
     res.cookie("UTOF", token, { httpOnly: true, sameSite: "lax" });
-    res.redirect("http://localhost:3000");
+    res.redirect("/");
   }
 );
 
