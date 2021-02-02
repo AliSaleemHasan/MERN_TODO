@@ -31,12 +31,12 @@ function Loginform() {
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
-    window.open("http://localhost:8080/auth/google", "_self");
+    window.open("https://todo-mern-app-s.herokuapp.com/auth/google", "_self");
   };
 
   const handleGithubLogin = (e) => {
     e.preventDefault();
-    window.open("http://localhost:8080/auth/github", "_self");
+    window.open("https://todo-mern-app-s.herokuapp.com/auth/github", "_self");
   };
   const handleLogin = (e) => {
     e.preventDefault();
