@@ -3,8 +3,8 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const authenticate = require("../authenticate");
 authRouter.use(bodyParser.json());
-
 authRouter.get("/github", passport.authenticate("github"));
+
 
 authRouter.get(
   "/github/redirect",
